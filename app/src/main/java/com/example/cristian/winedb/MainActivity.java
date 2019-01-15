@@ -16,25 +16,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends AppCompatActivity {
 
     ListAdapter adapter;
+    ListView lv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView lv = getListView();
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            // En fer onClick a un element de la llista cridam l'activity d'edició i passam la clau primària
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                String s = ((TextView) view.findViewById(R.id.id)).getText().toString();
-                Intent in=new Intent(getApplicationContext(),EditActivity.class);
-                in.putExtra("ID", s);
-                startActivity(in);
-            }
-        });
+        lv = findViewById(R.id.book);
 
         Button btNou=(Button) findViewById(R.id.nouBtn);
         btNou.setOnClickListener(
@@ -42,7 +32,7 @@ public class MainActivity extends ListActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent in=new Intent(getApplicationContext(),EditaVi.class);
+                        Intent in=new Intent(getApplicationContext(),EditActivity.class);
                         in.putExtra("ID", "");
                         startActivity(in);
                     }
@@ -71,7 +61,7 @@ public class MainActivity extends ListActivity {
         //Tanquem la BD
         bd.close();
         //Assignar a la listview
-        adapter = new SimpleAdapter(this, llista.R.layout.lista, llistaVins,
+        adapter = new SimpleAdapter(this, llista, R.layout.lista,
                 new String[]{"id", "nomVi", "data", "tipus"},
                 new int[]{R.id.id, R.id.nomVi, R.id.data, R.id.tipus});
         lv.setAdapter(adapter);
