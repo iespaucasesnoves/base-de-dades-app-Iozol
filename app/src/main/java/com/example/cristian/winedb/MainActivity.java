@@ -26,18 +26,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         lv = findViewById(R.id.book);
 
-        Button btNou=(Button) findViewById(R.id.nouBtn);
-        btNou.setOnClickListener(
-                // Cridam l'activity d'edició indicant que es un insert (clau primària en blanc per exemple)
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent in=new Intent(getApplicationContext(),EditActivity.class);
-                        in.putExtra("ID", "");
-                        startActivity(in);
-                    }
-                }
-        );
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            // En fer onClick a un element de la llista cridam l'activity d'edició i passam la clau primària
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String s = ((TextView) view.findViewById(R.id.id)).getText().toString();
+                Intent in=new Intent(getApplicationContext(),EditActivity.class);
+                in.putExtra("ID", s);
+                startActivity(in);
+            }
+        });
+
         mostraVins(); // Carrega la llista
     }
 

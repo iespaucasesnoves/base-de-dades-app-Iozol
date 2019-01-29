@@ -19,6 +19,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/comentari"
+        android:layout_width="351dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Comentari"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/denominacio" />
+
     <Spinner
         android:id="@+id/tipus"
         android:layout_width="141dp"
@@ -66,6 +80,30 @@
         app:layout_constraintTop_toBottomOf="@+id/dateText" />
 
     <TextView
+        android:id="@+id/anyadaText2"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="Olor"
+        android:textAlignment="textEnd"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/olor"
+        app:layout_constraintTop_toBottomOf="@+id/comentari" />
+
+    <TextView
+        android:id="@+id/anyadaText3"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="Visual"
+        android:textAlignment="textEnd"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/visual"
+        app:layout_constraintTop_toBottomOf="@+id/anyadaText2" />
+
+    <TextView
         android:id="@+id/grausText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,11 +112,11 @@
         android:text="Graduació:"
         android:textAlignment="textEnd"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/Graus"
+        app:layout_constraintEnd_toStartOf="@+id/graduacio"
         app:layout_constraintTop_toBottomOf="@+id/nomVi" />
 
     <EditText
-        android:id="@+id/Graus"
+        android:id="@+id/graduacio"
         android:layout_width="143dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -122,7 +160,7 @@
         android:text="Bodega"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Graus" />
+        app:layout_constraintTop_toBottomOf="@+id/graduacio" />
 
     <AutoCompleteTextView
         android:id="@+id/denominacio"
@@ -144,6 +182,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nomVi"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <RatingBar
+        android:id="@+id/olor"
+        android:layout_width="238dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comentari" />
+
+    <RatingBar
+        android:id="@+id/visual"
+        android:layout_width="238dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/olor" />
 
 
 </android.support.constraint.ConstraintLayout>

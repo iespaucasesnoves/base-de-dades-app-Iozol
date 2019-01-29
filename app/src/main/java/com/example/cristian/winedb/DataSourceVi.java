@@ -99,6 +99,36 @@ public class DataSourceVi {
         return vi;
     }
 
+    public Bodega getBodega(long id) {
+        Bodega bodega;
+        Cursor cursor = database.query(HelperVi.TABLE_BODEGA,
+                allColumnsVi, HelperVi.COLUMN_ID + " = " + id, null,
+                null, null, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            bodega = cursorToBodega(cursor);
+        } else {
+            bodega = new Bodega();
+        } // id=-1 no trobat
+        cursor.close();
+        return bodega;
+    }
+
+    public Denominacio getDenominacio(long id) {
+        Denominacio denominacio;
+        Cursor cursor = database.query(HelperVi.TABLE_VI,
+                allColumnsVi, HelperVi.COLUMN_ID + " = " + id, null,
+                null, null, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            denominacio = cursorToDenominacio(cursor);
+        } else {
+            denominacio = new Denominacio();
+        } // id=-1 no trobat
+        cursor.close();
+        return denominacio;
+    }
+
     public List<Vi> getAllVi() {
         List<Vi> vins = new ArrayList<Vi>();
         Cursor cursor = database.query(HelperVi.TABLE_VI, allColumnsVi, null, null, null, null,
@@ -112,6 +142,20 @@ public class DataSourceVi {
         // Make sure to close the cursor
         cursor.close();
         return vins;
+    }
+
+    private Bodega cursorToBodega(Cursor cursor) {
+        Bodega b = new Bodega();
+        b.setIdbodega(cursor.getLong(0));
+        b.setNombodega(cursor.getString(1));
+        return b;
+    }
+
+    private Denominacio cursorToDenominacio(Cursor cursor) {
+        Denominacio d= new Denominacio();
+        d.setIddenominacio(cursor.getLong(0));
+        d.setNomdenominacio(cursor.getString(1));
+        return d;
     }
 
     private Vi cursorToVi(Cursor cursor) {
