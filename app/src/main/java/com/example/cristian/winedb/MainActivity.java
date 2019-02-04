@@ -38,6 +38,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button btNou=(Button) findViewById(R.id.nuevo);
+        btNou.setOnClickListener(
+                // Cridam l'activity d'edició indicant que es un insert (clau primària en blanc per exemple)
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent in=new Intent(getApplicationContext(),EditActivity.class);
+                        in.putExtra("ID", "-1");
+                        startActivity(in);
+                    }
+                }
+        );
+
         mostraVins(); // Carrega la llista
     }
 

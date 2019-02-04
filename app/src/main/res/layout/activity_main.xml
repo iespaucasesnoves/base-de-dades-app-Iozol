@@ -9,9 +9,18 @@
     <ListView
         android:id="@+id/book"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="405dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/nuevo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="31dp"
+        android:text="Nou Vi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

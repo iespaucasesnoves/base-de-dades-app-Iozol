@@ -32,7 +32,7 @@ public class HelperVi extends SQLiteOpenHelper {
     public static final String TABLE_TIPUS = "tipus";
     public static final String COLUMN__TIPUS = "tipus";
     private static final String DATABASE_NAME = "wineapp";
-    private static final int DATABASE_VERSION = 2; // Controla la versió de la base de dades
+    private static final int DATABASE_VERSION = 8; // Controla la versió de la base de dades
 
     // Setències de creació de la base de dades
     private static final String DATABASE_CREATE_VI = "create table "
@@ -79,15 +79,15 @@ public class HelperVi extends SQLiteOpenHelper {
         database.execSQL(DATABASE_CREATE_BODEGA);
         database.execSQL(DATABASE_CREATE_DENOMINACIO);
         database.execSQL(DATABASE_CREATE_TIPUS);
-        database.execSQL(" insert into "+TABLE_TIPUS+"(tipus) values(('Tinto'))");
-        database.execSQL(" insert into "+TABLE_TIPUS+"(tipus) values(('Rosat'))");
-        database.execSQL(" insert into "+TABLE_TIPUS+"(tipus) values(('Blanc'))");
-        database.execSQL(" insert into "+TABLE_TIPUS+"(tipus) values(('Dolç'))");
-        database.execSQL(" insert into "+TABLE_TIPUS+"(tipus) values(('Espumós'))");
-        database.execSQL(" insert into "+TABLE_TIPUS+"(tipus) values(('Cervesa'))");
-        database.execSQL(" insert into "+TABLE_TIPUS+"(tipus) values(('Altres'))");
-        database.execSQL(" insert into "+TABLE_VI+"(nomVi, tipus, data) values('papepo', 'Dolç', '18/1/1900')");
-        database.execSQL(" insert into "+TABLE_VI+"(nomVi, tipus, data) values('pollo', 'Blanc', '18/1/1850')");
+        database.execSQL(" insert into "+TABLE_TIPUS+" values ('Tinto');");
+        database.execSQL(" insert into "+TABLE_TIPUS+" values ('Rosat');");
+        database.execSQL(" insert into "+TABLE_TIPUS+" values ('Blanc');");
+        database.execSQL(" insert into "+TABLE_TIPUS+" values ('Dolç');");
+        database.execSQL(" insert into "+TABLE_TIPUS+" values ('Espumós');");
+        database.execSQL(" insert into "+TABLE_TIPUS+" values ('Cervesa');");
+        database.execSQL(" insert into "+TABLE_TIPUS+" values ('Altres');");
+        database.execSQL(" insert into "+TABLE_VI+" values ('pantinflas', 'Cervesa', '18/1/1900');");
+        database.execSQL(" insert into "+TABLE_VI+" values ('pollo', 'Dolç', '18/1/1850');");
     }
 
     @Override

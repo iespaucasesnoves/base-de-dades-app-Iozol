@@ -22,6 +22,20 @@ public class DataSourceVi {
             HelperVi.COLUMN_VALVISUAL, HelperVi.COLUMN_NOTA, HelperVi.COLUMN_FOTO,
             HelperVi.COLUMN_TIPUS};
 
+    private String[] allColumnsBodega = {
+            HelperVi.COLUMN__IDBODEGA,
+            HelperVi.COLUMN_NOMBODEGA
+    };
+
+    private String[] allColumnsDenominacio = {
+            HelperVi.COLUMN__IDDENOMINACIO,
+            HelperVi.COLUMN_NOMDENOMINACIO
+    };
+
+    private String[] allColumnsTipus = {
+            HelperVi.COLUMN__TIPUS,
+    };
+
     public DataSourceVi(Context context) { //CONSTRUCTOR
         dbAjuda = new HelperVi(context);
     }
@@ -101,23 +115,30 @@ public class DataSourceVi {
 
     public Bodega getBodega(long id) {
         Bodega bodega;
-        Cursor cursor = database.query(HelperVi.TABLE_BODEGA,
-                allColumnsVi, HelperVi.COLUMN_ID + " = " + id, null,
-                null, null, null);
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            bodega = cursorToBodega(cursor);
-        } else {
+
+        try{
+            Cursor cursor = database.query(HelperVi.TABLE_BODEGA,
+                    allColumnsBodega, HelperVi.COLUMN_IDBODEGA + " = " + id, null,
+                    null, null, null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                bodega = cursorToBodega(cursor);
+            } else {
+                bodega = new Bodega();
+            } // id=-1 no trobat
+            cursor.close();
+        }catch(Exception e){
             bodega = new Bodega();
-        } // id=-1 no trobat
-        cursor.close();
+        }
+
         return bodega;
     }
 
     public Denominacio getDenominacio(long id) {
         Denominacio denominacio;
-        Cursor cursor = database.query(HelperVi.TABLE_VI,
-                allColumnsVi, HelperVi.COLUMN_ID + " = " + id, null,
+        try{
+        Cursor cursor = database.query(HelperVi.TABLE_DENOMINACIO,
+                allColumnsDenominacio, HelperVi.COLUMN_IDDENOMINACIO + " = " + id, null,
                 null, null, null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -126,6 +147,9 @@ public class DataSourceVi {
             denominacio = new Denominacio();
         } // id=-1 no trobat
         cursor.close();
+        }catch(Exception e){
+            denominacio = new Denominacio();
+        }
         return denominacio;
     }
 
@@ -144,6 +168,51 @@ public class DataSourceVi {
         return vins;
     }
 
+    public List<Bodega> getLlistaBodegues() {
+        List<Bodega> bodegas = new ArrayList<Bodega>();
+        Cursor cursor = database.query(HelperVi.TABLE_BODEGA,
+                allColumnsBodega, null, null,
+                null, null, HelperVi.COLUMN_NOMBODEGA + " DESC");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Bodega bodega = cursorToBodega(cursor);
+            bodegas.add(bodega);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return bodegas;
+    }
+
+    public List<Denominacio> getLlistaDenominacio(){
+        List<Denominacio> denominacions = new ArrayList<Denominacio>();
+        Cursor cursor = database.query(HelperVi.TABLE_DENOMINACIO,
+                allColumnsBodega, null, null,
+                null, null, HelperVi.COLUMN_NOMDENOMINACIO + " DESC");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Denominacio denominacio = cursorToDenominacio(cursor);
+            denominacions.add(denominacio);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return denominacions;
+    }
+
+    public List<String> getAllTipus() {
+        List<String> tipus = new ArrayList<String>();
+        Cursor cursor = database.query(HelperVi.TABLE_TIPUS, allColumnsTipus, null, null, null, null,
+                HelperVi.COLUMN__TIPUS + " DESC");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Tipus tipo = cursorToTipus(cursor);
+            tipus.add(tipo.getTipus());
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return tipus;
+    }
+
     private Bodega cursorToBodega(Cursor cursor) {
         Bodega b = new Bodega();
         b.setIdbodega(cursor.getLong(0));
@@ -156,6 +225,12 @@ public class DataSourceVi {
         d.setIddenominacio(cursor.getLong(0));
         d.setNomdenominacio(cursor.getString(1));
         return d;
+    }
+
+    private Tipus cursorToTipus(Cursor cursor) {
+        Tipus t= new Tipus();
+        t.setTipus(cursor.getString(0));
+        return t;
     }
 
     private Vi cursorToVi(Cursor cursor) {
