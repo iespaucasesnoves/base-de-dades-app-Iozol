@@ -80,4 +80,11 @@ public class MainActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mostraVins();
+    }
+
+
 }

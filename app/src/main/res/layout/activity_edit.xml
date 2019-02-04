@@ -10,7 +10,7 @@
         android:id="@+id/nomVi"
         android:layout_width="351dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Nom Vi"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nomVi" />
 
@@ -83,7 +83,7 @@
         android:id="@+id/anyadaText2"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Olor"
         android:textAlignment="textEnd"
@@ -95,13 +95,25 @@
         android:id="@+id/anyadaText3"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:text="Visual"
         android:textAlignment="textEnd"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/visual"
         app:layout_constraintTop_toBottomOf="@+id/anyadaText2" />
+
+    <TextView
+        android:id="@+id/anyadaText4"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Gust"
+        android:textAlignment="textEnd"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/gust"
+        app:layout_constraintTop_toBottomOf="@+id/anyadaText3" />
 
     <TextView
         android:id="@+id/grausText"
@@ -156,8 +168,9 @@
         android:id="@+id/bodega"
         android:layout_width="351dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Bodega"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/graduacio" />
@@ -168,6 +181,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Denominació"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
@@ -187,7 +201,6 @@
         android:id="@+id/olor"
         android:layout_width="238dp"
         android:layout_height="44dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comentari" />
@@ -196,10 +209,43 @@
         android:id="@+id/visual"
         android:layout_width="238dp"
         android:layout_height="44dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/olor" />
+
+    <RatingBar
+        android:id="@+id/gust"
+        android:layout_width="238dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/visual" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginBottom="8dp"
+        android:text="Borrar"
+        android:onClick="borrar"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/insert"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginBottom="8dp"
+        android:text="Inserir"
+        android:textSize="14sp"
+        android:onClick="insereix"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

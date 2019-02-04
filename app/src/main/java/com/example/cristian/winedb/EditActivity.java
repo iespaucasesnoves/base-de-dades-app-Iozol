@@ -3,7 +3,9 @@ package com.example.cristian.winedb;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -15,19 +17,74 @@ import java.util.List;
 
 public class EditActivity extends AppCompatActivity {
 
+    Vi vi;
+    Long id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         Intent intent = getIntent();
-        Long id = Long.parseLong(intent.getStringExtra("ID"));
+        id = Long.parseLong(intent.getStringExtra("ID"));
 
         if(id != -1) {
             cargarInfo(id);
         } else{
             montaSpinners("");
+            montaAutocompletar("", true);
+            montaAutocompletar("",false);
         }
 
+    }
+
+    public void borrar(View v){
+        if(id != -1){
+            DataSourceVi bd;
+            bd = new DataSourceVi(this);
+            bd.open();
+            bd.deleteVi(vi);
+            bd.close();
+            this.finish();
+        }
+    }
+
+    public void insereix(View v){
+        DataSourceVi bd;
+        bd = new DataSourceVi(this);
+
+
+        TextView nomVi = findViewById(R.id.nomVi);
+        TextView date = findViewById(R.id.dade);
+        TextView anyada = findViewById(R.id.anyada);
+        TextView graduacio = findViewById(R.id.graduacio);
+        TextView comentari = findViewById(R.id.comentari);
+        RatingBar olor = findViewById(R.id.olor);
+        RatingBar visual = findViewById(R.id.visual);
+        RatingBar gust = findViewById(R.id.gust);
+        AutoCompleteTextView bodega = (AutoCompleteTextView) findViewById(R.id.bodega);
+        AutoCompleteTextView denominacio = findViewById(R.id.denominacio);
+
+        if(id == -1)vi = new Vi();
+
+        vi.setNomVi(nomVi.getText().toString());
+        vi.setData(date.getText().toString());
+        vi.setAnada(anyada.getText().toString());
+        vi.setGraduacio(graduacio.getText().toString());
+        vi.setComentari(comentari.getText().toString());
+        vi.setIdBodega();
+        vi.setIdDenominacio();
+        vi.setValGustativa(gust.getRating());
+        vi.setValOlfativa(olor.getText().toString());
+        vi.setValVisual(visual.getText().toString());
+        vi.setTipus();
+
+        bd.open();
+        if(id != -1){
+            bd.updateVi(vi);
+        } else{
+            bd.createVi(vi);
+        }
+        bd.close();
+        this.finish();
     }
 
     private void montaSpinners(String t) {
@@ -46,29 +103,45 @@ public class EditActivity extends AppCompatActivity {
         // assignar adapter
         spinner.setAdapter(dataAdapter);
         if (t!=null && !t.equals("")) {
-            selectValue(spinner,t); // Si hi ha un valor assignat posicionar-se
-        }
-    }
-    private void selectValue(Spinner spinner, Object value) {
-        for (int i = 0; i < spinner.getCount(); i++) {
-            if (spinner.getItemAtPosition(i).equals(value)) {
-                spinner.setSelection(i);
-                break;
+            for (int i = 0; i < spinner.getCount(); i++) {
+                if (spinner.getItemAtPosition(i).equals(t)) {
+                    spinner.setSelection(i);
+                    break;
+                }
             }
         }
     }
-    private void montaAutocompleta(String b,String d){
+
+    private void montaAutocompletar(String b, boolean booBodega){
         List<String> llista;
         DataSourceVi bd;
         bd = new DataSourceVi(this);
-        llista=bd.getLlistaBodegues();
+
+        bd.open();
+        if(booBodega){
+            llista=bd.getLlistaBodegues();
+        }else{
+            llista=bd.getLlistaDenominacio();
+        }
+        bd.close();
+
         ArrayAdapter<String> adapter = new
                 ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, llista);
-        AutoCompleteTextView bodega = (AutoCompleteTextView) findViewById(R.id.acBodega);
-        bodega.setThreshold(0);
-        bodega.setAdapter(adapter);
-        if (b!=null && !b.equals("")) {
-            bodega.setText(b,true);
+
+        if(booBodega) {
+            AutoCompleteTextView bodega = (AutoCompleteTextView) findViewById(R.id.bodega);
+            bodega.setThreshold(0);
+            bodega.setAdapter(adapter);
+            if (b!=null && !b.equals("")) {
+                bodega.setText(b,true);
+            }
+        } else{
+            AutoCompleteTextView denominacio = findViewById(R.id.denominacio);
+            denominacio.setThreshold(0);
+            denominacio.setAdapter(adapter);
+            if (b!=null && !b.equals("")) {
+                denominacio.setText(b,true);
+            }
         }
     }
 
@@ -77,7 +150,7 @@ public class EditActivity extends AppCompatActivity {
         DataSourceVi bd;
         bd = new DataSourceVi(this);
         bd.open();
-        Vi vi = bd.getVi(id);
+        vi = bd.getVi(id);
         bd.close();
 
         Bodega bod = bd.getBodega(vi.getIdBodega());
@@ -86,27 +159,22 @@ public class EditActivity extends AppCompatActivity {
         TextView date = findViewById(R.id.dade);
         TextView anyada = findViewById(R.id.anyada);
         TextView graduacio = findViewById(R.id.graduacio);
-        TextView bodega = findViewById(R.id.bodega);
-        TextView denominacio = findViewById(R.id.denominacio);
         TextView comentari = findViewById(R.id.comentari);
         RatingBar olor = findViewById(R.id.olor);
         RatingBar visual = findViewById(R.id.visual);
-        if(vi.getTipus() != null){
-            montaSpinners(vi.getTipus());
-        }
-        else{
-            montaSpinners("");
-        }
+        RatingBar gust = findViewById(R.id.gust);
+        montaSpinners(vi.getTipus());
 
         nomVi.setText(vi.getNomVi());
         date.setText(vi.getData());
         anyada.setText(vi.getAnada());
         graduacio.setText(vi.getGraduacio());
-        if(deno.getNomdenominacio() != null) denominacio.setText(deno.getNomdenominacio());
-        if(bod.getNombodega() != null) bodega.setText(bod.getNombodega());
+        montaAutocompletar(deno.getNomdenominacio(), false);
+        montaAutocompletar(bod.getNombodega(), true);
         if(vi.getComentari() != null)comentari.setText(vi.getNomVi());
         if(vi.getValOlfativa() != null)olor.setRating(Float.parseFloat(vi.getValOlfativa()));
         if(vi.getValVisual() != null)visual.setRating(Float.parseFloat(vi.getValVisual()));
+        if(vi.getValVisual() != null)gust.setRating(Float.parseFloat(vi.getValGustativa()));
 
     }
 }

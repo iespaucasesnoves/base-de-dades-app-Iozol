@@ -134,6 +134,25 @@ public class DataSourceVi {
         return bodega;
     }
 
+    public Long findInsertBodegaPerNom(String nomBodega){
+        Bodega bodega;
+
+            Cursor cursor = database.query(HelperVi.TABLE_BODEGA,
+                    allColumnsBodega, HelperVi.COLUMN_NOMBODEGA + " = '" + nomBodega + "'", null,
+                    null, null, null);
+
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                bodega = cursorToBodega(cursor);
+            } else {
+                bodega = new Bodega();
+                bodega.setNombodega(nomBodega);
+            } // id=-1 no trobat
+            cursor.close();
+
+            return bodega.getIdbodega();
+    }
+
     public Denominacio getDenominacio(long id) {
         Denominacio denominacio;
         try{
@@ -153,6 +172,25 @@ public class DataSourceVi {
         return denominacio;
     }
 
+    public Long findInsertgetDenominacioPerNom(String nomDenominacio){
+        Denominacio denominacio;
+
+        Cursor cursor = database.query(HelperVi.TABLE_DENOMINACIO,
+                allColumnsDenominacio, HelperVi.COLUMN_NOMDENOMINACIO + " = " + nomDenominacio, null,
+                null, null, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            denominacio = cursorToDenominacio(cursor);
+        } else {
+            denominacio = new Denominacio();
+            denominacio.setNomdenominacio(nomDenominacio);
+        }
+        cursor.close();
+
+        return denominacio.getIddenominacio();
+    }
+
     public List<Vi> getAllVi() {
         List<Vi> vins = new ArrayList<Vi>();
         Cursor cursor = database.query(HelperVi.TABLE_VI, allColumnsVi, null, null, null, null,
@@ -168,30 +206,30 @@ public class DataSourceVi {
         return vins;
     }
 
-    public List<Bodega> getLlistaBodegues() {
-        List<Bodega> bodegas = new ArrayList<Bodega>();
+    public List<String> getLlistaBodegues() {
+        List<String> bodegas = new ArrayList<String>();
         Cursor cursor = database.query(HelperVi.TABLE_BODEGA,
                 allColumnsBodega, null, null,
                 null, null, HelperVi.COLUMN_NOMBODEGA + " DESC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Bodega bodega = cursorToBodega(cursor);
-            bodegas.add(bodega);
+            bodegas.add(bodega.getNombodega());
             cursor.moveToNext();
         }
         cursor.close();
         return bodegas;
     }
 
-    public List<Denominacio> getLlistaDenominacio(){
-        List<Denominacio> denominacions = new ArrayList<Denominacio>();
+    public List<String> getLlistaDenominacio(){
+        List<String> denominacions = new ArrayList<>();
         Cursor cursor = database.query(HelperVi.TABLE_DENOMINACIO,
-                allColumnsBodega, null, null,
+                allColumnsDenominacio, null, null,
                 null, null, HelperVi.COLUMN_NOMDENOMINACIO + " DESC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Denominacio denominacio = cursorToDenominacio(cursor);
-            denominacions.add(denominacio);
+            denominacions.add(denominacio.getNomdenominacio());
             cursor.moveToNext();
         }
         cursor.close();
@@ -199,7 +237,7 @@ public class DataSourceVi {
     }
 
     public List<String> getAllTipus() {
-        List<String> tipus = new ArrayList<String>();
+        List<String> tipus = new ArrayList<>();
         Cursor cursor = database.query(HelperVi.TABLE_TIPUS, allColumnsTipus, null, null, null, null,
                 HelperVi.COLUMN__TIPUS + " DESC");
         cursor.moveToFirst();
